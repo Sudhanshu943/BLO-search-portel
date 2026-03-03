@@ -69,3 +69,6 @@ ENV/
 *.pdf
 backend/pdf_database.csv
 
+# Next.js build
+frontend/.next/
+frontend/node_modules/
