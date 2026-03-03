@@ -1,0 +1,14 @@
+# Frontend Dependencies (installed via npm)
+# Run: npm install
+
+# Main dependencies
+next@16.1.6
+react@19.2.3
+react-dom@19.2.3
+new-react-transliterate@1.1.8
+
+# Dev dependencies
+eslint@9
+eslint-config-next@16.1.6
+tailwindcss@4
+@tailwindcss/postcss@4
