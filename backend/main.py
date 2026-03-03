@@ -262,12 +262,18 @@ def convert_text(text: str = ""):
 
 
 @app.get("/api/search")
-def search(query: str, father_name: str = ""):
+def search(query: str, relative_name: str = ""):
+    """
+    Search voter list.
+    - query: Search in voter name column
+    - relative_name: Search in father/husband name column
+    """
     if not os.path.exists(DATABASE_FILE):
         return {"error": "No CSV database found. Please upload a PDF first."}
 
-    k_query = unicode_to_krutidev(query)
-    k_father = unicode_to_krutidev(father_name) if father_name else ""
+    # Convert search terms to Kruti Dev for searching
+    k_query = unicode_to_krutidev(query) if query else ""
+    k_relative = unicode_to_krutidev(relative_name) if relative_name else ""
     
     results = []
     
@@ -278,28 +284,41 @@ def search(query: str, father_name: str = ""):
         is_structured = len(header) >= 5 if header else False
         
         if is_structured:
+            # New structured format: search in specific columns
+            # Column 1 = name (voter name), Column 2 = father_name
             for row_data in reader:
                 if len(row_data) < 9:
                     continue
                 
-                name = row_data[1]
-                father = row_data[2]
+                voter_name = row_data[1]       # Name column
+                father_name = row_data[2]     # Father name column
                 page_num = row_data[8]
                 
-                if k_query in name:
-                    if not father_name or k_father in father:
-                        results.append({
-                            "page_number": int(page_num) if page_num else 0,
-                            "serial_number": row_data[0],
-                            "name": name,
-                            "father_name": father,
-                            "relation": row_data[3],
-                            "relative_name": row_data[4],
-                            "age": row_data[5],
-                            "gender": row_data[6],
-                            "voter_id": row_data[7]
-                        })
+                # Search: query in voter name, relative_name in father column
+                name_match = not k_query or k_query in voter_name
+                relative_match = not k_relative or k_relative in father_name
+                
+                if name_match and relative_match:
+                    # Convert Kruti Dev to Unicode for display
+                    unicode_name = krutidev_to_unicode(voter_name)
+                    unicode_father = krutidev_to_unicode(father_name)
+                    unicode_relation = krutidev_to_unicode(row_data[3]) if row_data[3] else ""
+                    unicode_relative = krutidev_to_unicode(row_data[4]) if row_data[4] else ""
+                    unicode_voter_id = krutidev_to_unicode(row_data[7]) if row_data[7] else ""
+                    
+                    results.append({
+                        "page_number": int(page_num) if page_num else 0,
+                        "serial_number": row_data[0],
+                        "voter_name": unicode_name,
+                        "father_name": unicode_father,
+                        "relation": unicode_relation,
+                        "relative_name": unicode_relative,
+                        "age": row_data[5],
+                        "gender": row_data[6],
+                        "voter_id": unicode_voter_id
+                    })
         else:
+            # Old raw format: search in raw text
             for row_data in reader:
                 if len(row_data) < 2: 
                     continue
@@ -307,7 +326,8 @@ def search(query: str, father_name: str = ""):
                 page_num = row_data[0]
                 row_text = row_data[1]
                 
-                if k_query in row_text and (not k_father or k_father in row_text):
+                # Both query and relative_name search in the raw text
+                if k_query in row_text and (not k_relative or k_relative in row_text):
                     hindi_row = krutidev_to_unicode(row_text)
                     hindi_row = re.sub(r'(^|\s)ष', r'\1श', hindi_row)
                     hindi_row = re.sub(r'(^|\s)ष्', r'\1श्', hindi_row)
@@ -320,13 +340,16 @@ def search(query: str, father_name: str = ""):
                     relation_type = parts[1].strip() if len(parts) >= 3 else ""
                     relative_name_col = parts[2].strip() if len(parts) >= 3 else ""
                     
-                    if query in voter_name_col:
-                        if not father_name or father_name in relative_name_col:
-                            results.append({
-                                "page_number": int(page_num),
-                                "voter_name": voter_name_col,
-                                "relative_name": relative_name_col,
-                                "relation_type": relation_type
-                            })
+                    # Check if both search terms match
+                    query_match = not query or query in voter_name_col
+                    relative_match = not relative_name or relative_name in relative_name_col
                     
+                    if query_match and relative_match:
+                        results.append({
+                            "page_number": int(page_num),
+                            "voter_name": voter_name_col,
+                            "relative_name": relative_name_col,
+                            "relation_type": relation_type
+                        })
+                        
     return {"total_matches": len(results), "results": results}

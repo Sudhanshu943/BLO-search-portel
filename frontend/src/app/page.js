@@ -10,7 +10,7 @@ export default function Home() {
   const [krutiQuery, setKrutiQuery] = useState(""); // Stores backend converted text
   
   const [fatherName, setFatherName] = useState("");
-  const [krutiFatherName, setKrutiFatherName] = useState(""); // Stores backend converted text
+  const [krutiFatherName, setKrutiFatherName] = useState("");
   
   const [results, setResults] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -93,7 +93,8 @@ export default function Home() {
     if (!query) return;
     setSearchLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/search?query=${query}&father_name=${fatherName}`);
+      // Search: query in name column, fatherName in relative column
+      const res = await fetch(`http://localhost:8000/api/search?query=${query}&relative_name=${fatherName}`);
       const data = await res.json();
       setResults(data);
     } catch (error) {
@@ -195,13 +196,22 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
                         <p className="text-xs text-blue-500 font-semibold uppercase mb-1">निर्वाचक का नाम (Voter)</p>
-                        <p className="text-2xl font-bold">{res.voter_name || "N/A"}</p>
+                        <p className="text-2xl font-bold">{res.voter_name || res.name || "N/A"}</p>
+                        {res.serial_number && <p className="text-xs text-gray-500">S.No: {res.serial_number}</p>}
                       </div>
                       <div className="bg-green-50 p-3 rounded-lg border border-green-100">
-                        <p className="text-xs text-green-600 font-semibold uppercase mb-1">सम्बन्धी ({res.relation_type === 'पि.' ? 'Father' : res.relation_type === 'प.' ? 'Husband' : 'Relative'})</p>
-                        <p className="text-2xl font-bold">{res.relative_name || "N/A"}</p>
+                        <p className="text-xs text-green-600 font-semibold uppercase mb-1">पिता/पति का नाम (Father/Husband)</p>
+                        <p className="text-2xl font-bold">{res.father_name || res.relative_name || "N/A"}</p>
+                        {res.relation && <p className="text-xs text-gray-500">Relation: {res.relation}</p>}
                       </div>
                     </div>
+                    {(res.age || res.gender || res.voter_id) && (
+                      <div className="mt-3 flex flex-wrap gap-4 text-sm text-gray-600">
+                        {res.age && <span className="bg-gray-100 px-2 py-1 rounded">Age: {res.age}</span>}
+                        {res.gender && <span className="bg-gray-100 px-2 py-1 rounded">Gender: {res.gender}</span>}
+                        {res.voter_id && <span className="bg-gray-100 px-2 py-1 rounded">ID: {res.voter_id}</span>}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
