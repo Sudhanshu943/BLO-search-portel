@@ -1,10 +1,10 @@
 serial_number,name,father_name,relation,relative_name,age,gender,voter_id,page_number
 13,y{e.k p©d fo/kku lHkk {ks= mrjkapy Hkkx la[;k,,,,1,,,1
 1,uUnyky,Hkxoku,iq-,,32,M,UP\1\423\0204597,1
-2,deys'k i- uUnyky,,e-,,30,F,UP\1\423\0204598,1
+2,deys'k,,i-,uUnyky,30,F,UP\1\423\0204598,1
 3,bj'kkn,e¨ ;kehu,iq-,,48,M,,1
 4,"oh0,l0iq""ioku","lh0,l0iq""ioku",iq-,,46,M,UP\1\423\0204676,1
-5,"tkeoarh i- oh0,l0iq""ioku",,e-,,45,F,,1
+5,tkeoarh,,i-,"oh0,l0iq""ioku",45,F,,1
 6,vkn'k ZxqIrk,czte¨gu,iq-,,24,M,,1
 7,jtuh ek- fu'kkar,,e-,,27,F,,1
 8,dyis'ojh ek- tksxs'oj izlkn,,e-,,79,F,,1
@@ -14,56 +14,125 @@ serial_number,name,father_name,relation,relative_name,age,gender,voter_id,page_n
 12,fdj.k ek- nhid,,e-,,23,F,,1
 13,nhid,vkj0 Mh0 ?kulkyk,iq-,,31,M,,1
 14,nsos'k,vkj0 Mh0 ?kulkyk,iq-,,29,M,,1
-15,ikjorh i- vkj0 Mh0,,e-,,56,F,,1
+15,ikjorh,,i-,vkj0,56,F,Mh0,1
 16,vkj0 Mh0 ?kulkyk,egkuan,iq-,,63,M,,1
 17,ikrh jke,ckykjke,iq-,,72,M,,1
 18,gjh'k,ikrhjke,iq-,,29,M,,1
 19,ekgs'ojh ek- ikrhjke,,e-,,69,F,,1
+21,1 ohjorh,,i-,vejukFk,36,F,CQZ1110717,1
+22,1 ljLorh nsoh,,i-,cPphjke,60,F,iar,1
+25,1 v:.kk vxzoky,,i-,ch0ih0vxzoky,48,F,,1
+27,2 lqfe=k,,i-,tloUr,50,F,,1
+31,3 iwue,,i-,Mh0ds0usxh,39,F,,1
+33,4 n;korh,,i-,uUn,54,F,fd'k¨j UP\1\423\0204005,1
+35,4 js[kk,,i-,ujs'k,26,F,,1
+37,4 e/kq vj¨jk,,i-,egUæ,42,F,vj¨jk CTJ0115030,1
+39,4 feuk{kh flag,,i-,nsosaæ,32,F,flag,1
+40,4 'kdqaryk nsoh,,i-,izrki,58,F,flag,1
+42,5 'kkfUr,,i-,';ke,55,F,yky cgknqj,1
 13,y{e.k p©d fo/kku lHkk {ks= mrjkapy Hkkx la[;k,,,,1,,,2
+46,5 lqeu,,i-,jk;,37,F,cgknqj,2
+47,5 eatw,,i-,lrsaæ,28,F,,2
+48,"5 iq""ik vf/kdkjh",,i-,"ch0,l0vf/kdkjh",40,F,CTJ0114934,2
+50,5 'kSyk tSnh,,i-,lyeku,36,F,tSnh,2
+52,"5 ,l0ldjkj",,i-,",e0ds0ljdkj",34,F,,2
+54,6 pEik nsoh,,i-,djs'ku,65,F,,2
+58,"6 iq""ik",,i-,jkds'k,28,F,,2
+60,6 lj¨t 'kekZ,,i-,ih0Mh0'kekZ,55,F,CTJ0114918,2
+63,6 dybZ psyoh,,i-,v:y,37,F,T;ksfr,2
+65,7 mek cgqxq.kk,,i-,Mh0cgqxq.kk,30,F,CTJ0114975,2
+67,7 dqyfoUnj dkSj,,i-,",e0,l0vVoky",40,F,,2
+68,8 gqde nsÃ,,i-,peu,50,F,yky UP\1\423\0204007,2
+71,8 jhrk,,i-,fnus'k,27,F,,2
+73,8 xkjxh nsoh,,i-,fo'ks'oj,69,F,ukFk CTJ0114959,2
+75,8 uhjt,,i-,'kfä,41,F,dqekj CTJ0115097,2
+77,8 dfudk uaUnk,,i-,v'ouh,30,F,dqekj CTJ0115105,2
+80,8 lhek esgrk,,i-,jkts'k,38,F,esgrk CTJ0115121,2
 82,8d jkeiky flag,xtks/kj flag,iq-,,62,M,,2
-83,8d inek flag i- jkeiky flag,,e-,,34,F,,2
+83,8d inek flag,,i-,jkeiky,34,F,flag,2
 84,"8d larks""k dqekj",jkeiky flag,iq-,,23,M,,2
 85,8d egsaæ izrki flag,jkeiky flag,iq-,,21,M,,2
 86,8d ehjk flag,jkeiky flag,e-,,18,F,,2
+87,9 carh nsoh,,i-,eqUuk,66,F,yky,2
 13,y{e.k p©d fo/kku lHkk {ks= mrjkapy Hkkx la[;k,,,,1,,,3
+89,9 fou¨n,,i-,t;,40,F,izdk'k,3
+91,9 deyk,,i-,lR;,35,F,izdk'k,3
+94,9 txoUrh,,i-,fotsUæ,32,F,UP\1\423\0204012,3
+97,9 lrs'ojh,,i-,f'koyky,70,F,c©MkÃ CTJ0115014,3
+99,9 lq/kk c©MkÃ,,i-,lqjsUæ,36,F,nRr CTJ0114983,3
+101,9 ljksftuh flUgk,,i-,lqt;,36,F,flUgk,3
+103,10 'k'kh,,i-,';ke,53,F,yky,3
+106,10 vatq yrk,,i-,lquhy,36,F,,3
+107,10 lfork nsoh,,i-,lq'khy,24,F,,3
+109,10 chuk,,i-,vkuan,44,F,flag usxh,3
+111,10 jeys'kehr,,i-,okensoehr,60,F,,3
+113,10 lksfu;kehr,,i-,trsaæehr,30,F,,3
+115,"10 larks""k dqekjhoS';",,i-,lq/khj,50,F,dqekj oS';,3
+116,10 dSyk'k dqekjh oS';,,i-,uan,75,F,fd'kksj oS';,3
+121,11 lj¨t,,i-,feBu,44,F,,3
+122,11 ;'k¨/kjk,,i-,n;kuUn,38,F,,3
+127,11 vydk,,i-,jktsaæ,31,F,flag,3
+129,11 >haxjh nsoh,,i-,';ke,38,F,izdk'k,3
+131,"12 iq""ik",,i-,njcku,50,F,flag UP\1\423\0204015,3
 13,y{e.k p©d fo/kku lHkk {ks= mrjkapy Hkkx la[;k,,,,1,,,4
+134,"12 o""jk lSuh",,i-,lqjsUæ,37,F,dqekj lSuh CTJ0115071,4
 135,"12, gjthr flag",djrkj flag,iq-,,35,M,,4
-136,"12, Hkwisaæ dkSj i- gjthr flag",,e-,,30,F,,4
+136,"12, Hkwisaæ dkSj",,i-,gjthr,30,F,flag,4
 137,12ch gjn;ky flag,[kq'kgky flag,iq-,,74,M,,4
 138,12ch gjiky flag,gjn;ky flag,iq-,,45,M,,4
-139,12ch ijethr dkSj i- gjiky flag,,e-,,40,F,,4
+139,12ch ijethr dkSj,,i-,gjiky,40,F,flag,4
 140,12ch veunhi flag,gjiky flag,iq-,,19,M,,4
 141,"12lh ,p0,l0lcjoky",nyhi flag,iq-,,41,M,,4
-142,"12lh jeuizhr i- ,p0,l0lcjoky",,e-,,35,F,,4
-156,14d f'kodqekjh i- gqdqe pan,,e-,,52,F,,4
+142,12lh jeuizhr,,i-,",p0,l0lcjoky",35,F,,4
+144,13 'kkfUr,,i-,uSu,48,F,flag UP\1\423\0204019,4
+147,13 mek jkuh 'kekZ,,i-,",l0,l0'kekZ",54,F,CTJ0115055,4
+149,14 lj¨tuh,,i-,jrhjke,66,F,UP\1\423\0204021,4
+151,14 yhyk,,i-,uanfd'kksj,32,F,,4
+155,14 uyuh egs'k,,i-,"oh0,l0egs'k",35,F,,4
+156,14d f'kodqekjh,,i-,gqdqe,52,F,pan,4
 157,14d jkds'k dqekj,gqdqe pan,iq-,,34,M,,4
-158,"14d iq""ik nsoh i- jkds'k dqekj",,e-,,29,F,,4
+158,"14d iq""ik nsoh",,i-,jkds'k,29,F,dqekj,4
 159,14th vkj0vkj0jktiwr,"vkj0,l0usxh",iq-,,46,M,,4
-160,14th ne;arh jktiwr i- vkj0vkj0jktiwr,,e-,,40,F,,4
+160,14th ne;arh jktiwr,,i-,vkj0vkj0jktiwr,40,F,,4
 161,14th jfpu usxh,vkj0vkj0jktiwr,iq-,,21,M,,4
 162,"14Mh ,u0Mh0tks'kh",txrjke tks'kh,iq-,,49,M,,4
-163,"14Mh iou tks'kh i- ,u0Mh0tks'kh",,e-,,45,F,,4
+163,14Mh iou tks'kh,,i-,",u0Mh0tks'kh",45,F,,4
 164,14Mh lquhy tks'kh,",u0Mh0tks'kh",iq-,,24,M,,4
 165,14Mh vfuy tks'kh,",u0Mh0tks'kh",iq-,,22,M,,4
-166,"14Mh uhuk tks'kh i- ,u0Mh0tks'kh",,e-,,19,F,,4
+166,14Mh uhuk tks'kh,,i-,",u0Mh0tks'kh",19,F,,4
 167,14ch fouksn dqekj tSu,dSyk'k pan,iq-,,57,M,,4
-168,14ch lfork tSu i- fouksn dqekj tSu,,e-,,55,F,,4
+168,14ch lfork tSu,,i-,fouksn,55,F,dqekj tSu,4
 169,14bZ dqaoj flag rksej,xqykc flag,iq-,,41,M,,4
-170,14bZ dqaojh nsoh i- dqaoj flag rksej,,e-,,37,F,,4
+170,14bZ dqaojh nsoh,,i-,dqaoj,37,F,flag rksej,4
 171,14bZ txr flag rksej,uRFkh flag,iq-,,28,M,,4
 172,14lh eqydjkt 'kekZ,galjkt 'kekZ,iq-,,54,M,,4
-173,14lh ljkst 'kekZ i- eqydjkt 'kekZ,,e-,,52,F,,4
+173,14lh ljkst 'kekZ,,i-,eqydjkt,52,F,'kekZ,4
 174,14lh /khjt 'kekZ,eqydjkt 'kekZ,iq-,,33,M,,4
-175,14lh izsj.kk 'kekZ i- /khjt 'kekZ,,e-,,26,F,,4
+175,14lh izsj.kk 'kekZ,,i-,/khjt,26,F,'kekZ,4
 13,y{e.k p©d fo/kku lHkk {ks= mrjkapy Hkkx la[;k,,,,1,,,5
 176,14lh uhjt 'kekZ,eqydjkt 'kekZ,iq-,,30,M,,5
-177,14lh lk/kuk 'kekZ i- uhjt 'kekZ,,e-,,26,F,,5
+177,14lh lk/kuk 'kekZ,,i-,uhjt,26,F,'kekZ,5
+179,15 foeyk,,i-,v'k¨d,40,F,UP\1\423\0204022,5
+180,15 pkoyh,,i-,'kadj,80,F,UP\1\423\0204023,5
+183,15 foHkk tks'kh,,i-,",l0,l0tks'kh",46,F,,5
+186,15 galk tks'kh,,i-,mokZ,70,F,nRr tks'kh,5
 187,15d vfuy,jks<w flag,iq-,,35,M,,5
-188,15d lk/kuk i- vfuy,,e-,,30,F,,5
+188,15d lk/kuk,,i-,vfuy,30,F,,5
 189,15ch fnyckxjk; flag,ukSgfj;k jk;,iq-,,64,M,,5
-190,15ch chuk jkuh i- fnyckxjk; flag,,e-,,53,F,,5
+190,15ch chuk jkuh,,i-,fnyckxjk;,53,F,flag,5
 191,15ch vrqy /kqij,fnyckxjk; flag,iq-,,26,M,,5
+193,16 deyk,,i-,ek/k¨,45,F,jke CQZ1110238,5
+195,16 deyk jkor,,i-,jktsUæ,55,F,flag jkor CTJ0115246,5
 196,16ch Mh0ds0Vkojh,dqanu yky,iq-,,65,M,,5
-197,16ch lR;orh Vkojh i- Mh0ds0Vkojh,,e-,,60,F,,5
+197,16ch lR;orh Vkojh,,i-,Mh0ds0Vkojh,60,F,,5
 198,16ch lat; Vkojh,Mh0ds0Vkojh,iq-,,35,M,,5
-199,16ch dapu Vkojh i- lat; Vkojh,,e-,,31,F,,5
+199,16ch dapu Vkojh,,i-,lat;,31,F,Vkojh,5
+201,17 y{eh,,i-,fot;,59,F,,5
+203,17 uUnh,,i-,jes'k,31,F,pUn,5
+204,17 vuqiek,,i-,f'ko,31,F,dqekj UP\1\423\0204499,5
+206,17 jf'e,,i-,/kesZUæ,22,F,'kekZ,5
+208,17 e/kq ukSfV;ky,,i-,vkj0lh0ukSfV;ky,55,F,CTJ0115139,5
+211,"18 bjk ?k¨""k",,i-,",l",57,F,"ih ?k¨""k CTJ0115147",5
+214,"18 vjhuk ?kks""k",,i-,fot;,27,F,"?kks""k",5
+217,18 lhek 'kqDyk,,i-,ukxsaæ,37,F,'kqDyk,5
+219,18 vuhrk jk.kk,,i-,vt;,36,F,jk.kk,5
