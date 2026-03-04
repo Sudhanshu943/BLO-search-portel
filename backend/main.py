@@ -264,8 +264,8 @@ def process_page_memory_efficient(pdf, page_num, columns_cache):
         return chunk_results, columns_cache
     
     page = pdf.pages[page_num]
-    # Use layout=False for faster extraction with less memory
-    text = page.extract_text(layout=False)
+    # Use layout=True for better text extraction with proper line breaks
+    text = page.extract_text(layout=True)
     
     if text:
         lines = text.split('\n')
@@ -384,6 +384,9 @@ def process_structured_pdf(filepath):
                     except Exception as page_error:
                         progress_status["message"] = f"Error on page {page_num + 1}: {str(page_error)}"
                         continue
+        
+        # Final flush to ensure last page data is saved
+        db.flush()
         
         progress_status["message"] = f"Complete! Extracted {total_records} records from {total_pages} pages"
         
