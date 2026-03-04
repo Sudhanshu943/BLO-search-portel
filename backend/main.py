@@ -1,11 +1,12 @@
 from fastapi import FastAPI, UploadFile, File, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from concurrent.futures import ProcessPoolExecutor
 import pdfplumber
 import csv
 import os
 import shutil
 import re
+import time
+import gc
 from converter import unicode_to_krutidev, krutidev_to_unicode
 
 app = FastAPI()
@@ -25,7 +26,12 @@ progress_status = {
     "is_processing": False,
     "current_page": 0,
     "total_pages": 0,
-    "message": "Idle"
+    "message": "Idle",
+    "download_speed": 0,
+    "pages_per_second": 0,
+    "records_extracted": 0,
+    "start_time": None,
+    "last_page_time": None
 }
 
 COLUMN_PATTERNS = {
@@ -250,48 +256,143 @@ def process_chunk(args):
     return chunk_results
 
 
+def process_page_memory_efficient(pdf, page_num, columns_cache):
+    """Memory-efficient page processing - uses already opened PDF and caches columns"""
+    chunk_results = []
+    
+    if page_num >= len(pdf.pages):
+        return chunk_results, columns_cache
+    
+    page = pdf.pages[page_num]
+    # Use layout=False for faster extraction with less memory
+    text = page.extract_text(layout=False)
+    
+    if text:
+        lines = text.split('\n')
+        
+        # Use cached columns if available, otherwise detect
+        if page_num in columns_cache:
+            columns_detected = columns_cache[page_num]
+        else:
+            columns_detected = {}
+            header_candidates = []
+            
+            for line in lines:
+                line_upper = line.upper()
+                if any(kw in line_upper for kw in ['LA[;K', 'FU-DZ', 'EDKU', 'FUOKZPD', 'LEC', 'FYAX', 'VK;Q', 'QKSVKS']):
+                    header_candidates.append(line)
+                    columns_detected = detect_columns_from_text(header_candidates)
+                    if columns_detected:
+                        columns_cache[page_num] = columns_detected
+                        break
+            
+            # If no columns detected, use default from previous pages
+            if not columns_detected and columns_cache:
+                first_key = next(iter(columns_cache.keys()))
+                columns_detected = columns_cache[first_key]
+        
+        for line in lines:
+            parsed = parse_data_row(line, columns_detected)
+            if parsed:
+                parsed['page_number'] = page_num + 1
+                chunk_results.append(parsed)
+    
+    # Clear page from memory
+    page.flush_cache()
+    
+    return chunk_results, columns_cache
+
+
 def process_structured_pdf(filepath):
-    """Process PDF file page by page and save to CSV"""
+    """Process PDF file page by page with memory optimization and save to CSV"""
     global progress_status
-    progress_status = {"is_processing": True, "current_page": 0, "total_pages": 0, "message": "Warming up..."}
+    
+    # Initialize progress
+    progress_status = {
+        "is_processing": True,
+        "current_page": 0,
+        "total_pages": 0,
+        "message": "Initializing...",
+        "download_speed": 0,
+        "pages_per_second": 0,
+        "records_extracted": 0,
+        "start_time": time.time(),
+        "last_page_time": time.time()
+    }
+    
+    total_records = 0
+    columns_cache = {}
     
     try:
+        # First, get total pages without loading entire PDF
         with pdfplumber.open(filepath) as pdf:
             total_pages = len(pdf.pages)
-        progress_status["total_pages"] = total_pages
-        progress_status["message"] = "Extracting structured data..."
-
-        # Process page by page (one at a time)
-        page_tasks = [(filepath, i) for i in range(total_pages)]
         
-        with open(DATABASE_FILE, "w", encoding="utf-8", newline="") as db:
-            writer = csv.writer(db)
-            writer.writerow(["serial_number", "name", "father_name", "relation", "relative_name", "age", "gender", "voter_id", "page_number"])
-            
-            with ProcessPoolExecutor() as executor:
-                for i, chunk_data in enumerate(executor.map(process_chunk, page_tasks)):
-                    for record in chunk_data:
-                        writer.writerow([
-                            record.get('serial', ''),
-                            record.get('name', ''),
-                            record.get('father_name', ''),
-                            record.get('relation', ''),
-                            record.get('relative_name', ''),
-                            record.get('age', ''),
-                            record.get('gender', ''),
-                            record.get('voter_id', ''),
-                            record.get('page_number', '')
-                        ])
-                    
-                    # Update progress - one page completed
-                    progress_status["current_page"] = i + 1
-                    db.flush()
+        progress_status["total_pages"] = total_pages
+        progress_status["message"] = "Starting extraction..."
+        
+        # Process page by page sequentially (memory efficient)
+        with pdfplumber.open(filepath) as pdf:
+            with open(DATABASE_FILE, "w", encoding="utf-8", newline="") as db:
+                writer = csv.writer(db)
+                writer.writerow(["serial_number", "name", "father_name", "relation", "relative_name", "age", "gender", "voter_id", "page_number"])
+                
+                for page_num in range(total_pages):
+                    try:
+                        # Process current page
+                        chunk_results, columns_cache = process_page_memory_efficient(pdf, page_num, columns_cache)
                         
-        progress_status["message"] = "Processing complete!"
+                        # Write results immediately
+                        for record in chunk_results:
+                            writer.writerow([
+                                record.get('serial', ''),
+                                record.get('name', ''),
+                                record.get('father_name', ''),
+                                record.get('relation', ''),
+                                record.get('relative_name', ''),
+                                record.get('age', ''),
+                                record.get('gender', ''),
+                                record.get('voter_id', ''),
+                                record.get('page_number', '')
+                            ])
+                            total_records += 1
+                        
+                        # Update progress
+                        current_time = time.time()
+                        elapsed = current_time - progress_status["start_time"]
+                        page_elapsed = current_time - progress_status["last_page_time"]
+                        
+                        progress_status["current_page"] = page_num + 1
+                        progress_status["records_extracted"] = total_records
+                        progress_status["pages_per_second"] = (page_num + 1) / elapsed if elapsed > 0 else 0
+                        progress_status["message"] = f"Processing page {page_num + 1} of {total_pages}"
+                        
+                        # Calculate download/processing speed (records per second)
+                        if page_elapsed > 0:
+                            progress_status["download_speed"] = len(chunk_results) / page_elapsed
+                        
+                        progress_status["last_page_time"] = current_time
+                        
+                        # Flush to disk periodically
+                        if (page_num + 1) % 10 == 0:
+                            db.flush()
+                        
+                        # Periodic garbage collection to free memory
+                        if (page_num + 1) % 5 == 0:
+                            gc.collect()
+                            
+                    except Exception as page_error:
+                        progress_status["message"] = f"Error on page {page_num + 1}: {str(page_error)}"
+                        continue
+        
+        progress_status["message"] = f"Complete! Extracted {total_records} records from {total_pages} pages"
+        
     except Exception as e:
         progress_status["message"] = f"Error: {str(e)}"
     finally:
         progress_status["is_processing"] = False
+        # Force garbage collection
+        gc.collect()
         if os.path.exists(filepath): 
             os.remove(filepath)
 

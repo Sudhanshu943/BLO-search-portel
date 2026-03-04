@@ -17,7 +17,7 @@ export default function Home() {
   const [progress, setProgress] = useState(null);
   const [isPolling, setIsPolling] = useState(false);
 
-  // Poll for PDF upload progress
+  // Poll for PDF upload progress - faster polling for real-time updates
   useEffect(() => {
     let interval;
     if (isPolling) {
@@ -30,7 +30,7 @@ export default function Home() {
         } catch (error) {
           console.error("Progress fetch error:", error);
         }
-      }, 2000);
+      }, 500); // Poll every 500ms for faster updates
     }
     return () => clearInterval(interval);
   }, [isPolling]);
@@ -128,9 +128,31 @@ export default function Home() {
             <div className="mt-4 p-4 bg-white border rounded shadow-sm">
               <p className="text-sm font-semibold mb-2">{progress.message}</p>
               {progress.total_pages > 0 && (
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-blue-600 h-3 rounded-full transition-all" style={{ width: `${(progress.current_page / progress.total_pages) * 100}%` }}></div>
-                </div>
+                <>
+                  <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                    <div className="bg-blue-600 h-3 rounded-full transition-all" style={{ width: `${(progress.current_page / progress.total_pages) * 100}%` }}></div>
+                  </div>
+                  <div className="flex flex-wrap gap-4 text-xs text-gray-600">
+                    <span className="bg-gray-100 px-2 py-1 rounded">
+                      Page: {progress.current_page} / {progress.total_pages}
+                    </span>
+                    {progress.pages_per_second > 0 && (
+                      <span className="bg-green-100 px-2 py-1 rounded text-green-700">
+                        Speed: {progress.pages_per_second.toFixed(2)} pages/sec
+                      </span>
+                    )}
+                    {progress.download_speed > 0 && (
+                      <span className="bg-blue-100 px-2 py-1 rounded text-blue-700">
+                        Records: {progress.download_speed.toFixed(1)} rec/sec
+                      </span>
+                    )}
+                    {progress.records_extracted > 0 && (
+                      <span className="bg-purple-100 px-2 py-1 rounded text-purple-700">
+                        Total: {progress.records_extracted} records
+                      </span>
+                    )}
+                  </div>
+                </>
               )}
             </div>
           )}
