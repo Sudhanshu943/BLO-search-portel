@@ -141,6 +141,11 @@ export default function Home() {
                         Speed: {progress.pages_per_second.toFixed(2)} pages/sec
                       </span>
                     )}
+                    {progress.estimated_time_remaining > 0 && (
+                      <span className="bg-orange-100 px-2 py-1 rounded text-orange-700">
+                        ETA: {Math.floor(progress.estimated_time_remaining / 60)}m {Math.round(progress.estimated_time_remaining % 60)}s remaining
+                      </span>
+                    )}
                     {progress.download_speed > 0 && (
                       <span className="bg-blue-100 px-2 py-1 rounded text-blue-700">
                         Records: {progress.download_speed.toFixed(1)} rec/sec

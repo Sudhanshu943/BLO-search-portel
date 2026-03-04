@@ -31,7 +31,8 @@ progress_status = {
     "pages_per_second": 0,
     "records_extracted": 0,
     "start_time": None,
-    "last_page_time": None
+    "last_page_time": None,
+    "estimated_time_remaining": None
 }
 
 COLUMN_PATTERNS = {
@@ -317,7 +318,8 @@ def process_structured_pdf(filepath):
         "pages_per_second": 0,
         "records_extracted": 0,
         "start_time": time.time(),
-        "last_page_time": time.time()
+        "last_page_time": time.time(),
+        "estimated_time_remaining": None
     }
     
     total_records = 0
@@ -366,6 +368,13 @@ def process_structured_pdf(filepath):
                         progress_status["records_extracted"] = total_records
                         progress_status["pages_per_second"] = (page_num + 1) / elapsed if elapsed > 0 else 0
                         progress_status["message"] = f"Processing page {page_num + 1} of {total_pages}"
+                        
+                        # Calculate estimated time remaining (only after first 5 pages for accuracy)
+                        if page_num >= 4 and progress_status["pages_per_second"] > 0:
+                            pages_remaining = total_pages - (page_num + 1)
+                            progress_status["estimated_time_remaining"] = pages_remaining / progress_status["pages_per_second"]
+                        else:
+                            progress_status["estimated_time_remaining"] = None
                         
                         # Calculate download/processing speed (records per second)
                         if page_elapsed > 0:
